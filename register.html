@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registrieren</title>
+</head>
+<body>
+
+<h2>Registrieren</h2>
+
+<input id="email" type="email" placeholder="Email"><br>
+<input id="password" type="password" placeholder="Passwort"><br>
+<button onclick="register()">Registrieren</button>
+
+<p id="msg"></p>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyBnE8m5vB6AXOFYtO-FHCsHE6YjuP8iyYE",
+    authDomain: "login-system-95b6e.firebaseapp.com",
+    projectId: "login-system-95b6e",
+    storageBucket: "login-system-95b6e.firebasestorage.app",
+    messagingSenderId: "628865613555",
+    appId: "1:628865613555:web:471d346277eb8ff6f10186",
+    measurementId: "G-E47SD6DJE1"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function register() {
+    const email = document.getElementById("email").value;
+    const pass = document.getElementById("password").value;
+
+    auth.createUserWithEmailAndPassword(email, pass)
+        .then(() => {
+            window.location.href = "https://sites.google.com/view/sodlo-login/login-auth-D847WWD/startseite-Login";
+        })
+        .catch(err => {
+            document.getElementById("msg").innerText = err.message;
+        });
+}
+</script>
+
+</body>
+</html>
