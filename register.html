@@ -8,104 +8,95 @@
         body {
             margin: 0;
             padding: 0;
-            background: #f4f6f9;
+            background: #2C2F33; /* Discord Dunkelgrau */
             font-family: "Segoe UI", Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            color: white;
         }
 
-        .container {
-            background: white;
-            padding: 40px;
-            width: 350px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            text-align: center;
+        .card {
+            width: 380px;
+            background: #23272A; /* Discord Schwarzgrau */
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.4);
         }
 
         h2 {
-            margin-bottom: 25px;
-            color: #333;
-            font-weight: 600;
+            margin: 0 0 25px 0;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        label {
+            font-size: 14px;
+            color: #b9bbbe;
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 15px;
         }
 
         input {
             width: 100%;
             padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid #ccc;
+            border-radius: 5px;
+            border: none;
+            background: #1e2124;
+            color: white;
             font-size: 15px;
-            transition: 0.2s;
         }
 
         input:focus {
-            border-color: #0078ff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0,120,255,0.3);
+            outline: 2px solid #5865F2; /* Discord Blau */
         }
 
         button {
             width: 100%;
             padding: 12px;
-            margin-top: 15px;
-            background: #0078ff;
+            margin-top: 25px;
+            background: #5865F2; /* Discord Blau */
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.2s;
+            font-weight: 600;
         }
 
         button:hover {
-            background: #005fcc;
+            background: #4752C4;
         }
 
         #msg {
             margin-top: 15px;
-            color: red;
-            font-size: 14px;
+            color: #ff4d4d;
+            text-align: center;
             min-height: 20px;
-        }
-
-        .footer {
-            margin-top: 20px;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .footer a {
-            color: #0078ff;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Registrieren</h2>
+<div class="card">
+    <h2>Konto erstellen</h2>
 
-    <input id="email" type="email" placeholder="E-Mail-Adresse">
-    <input id="password" type="password" placeholder="Passwort">
+    <label for="email">E-Mail-Adresse</label>
+    <input id="email" type="email" placeholder="z.B. name@firma.de">
 
-    <button onclick="register()">Konto erstellen</button>
+    <label for="password">Passwort</label>
+    <input id="password" type="password" placeholder="••••••••">
+
+    <button onclick="register()">Registrieren</button>
 
     <p id="msg"></p>
-
-    <div class="footer">
-        Bereits ein Konto?  
-        <a href="login.html">Jetzt anmelden</a>
-    </div>
 </div>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
