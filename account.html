@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Account Dashboard</title>
+
+<style>
+    body {
+        background-color: #2f3136;
+        font-family: Arial, sans-serif;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+    }
+
+    .card {
+        background-color: #36393f;
+        padding: 25px;
+        width: 420px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+        margin-top: 0;
+        color: #fff;
+        font-size: 22px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 10px;
+    }
+
+    .info {
+        margin: 15px 0;
+        padding: 10px;
+        background: #202225;
+        border-radius: 6px;
+        font-size: 15px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .danger {
+        background-color: #d83c3e;
+        color: white;
+    }
+
+    .warning {
+        background-color: #faa61a;
+        color: black;
+    }
+
+    .normal {
+        background-color: #5865f2;
+        color: white;
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Account Einstellungen</h2>
+
+    <div class="info">
+        <p><b>Email:</b> <span id="email"></span></p>
+        <p><b>Status:</b> <span id="status"></span></p>
+    </div>
+
+    <button id="resetPw" class="normal">Passwort zurücksetzen</button>
+    <button id="toggleDisable" class="warning">Konto deaktivieren</button>
+    <button id="deleteAcc" class="danger">Konto löschen</button>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { 
+        getAuth, 
+        onAuthStateChanged, 
+        sendPasswordResetEmail, 
+        deleteUser,
+        updateProfile 
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBnE8m5vB6AXOFYtO-FHCsHE6YjuP8iyYE",
+        authDomain: "login-system-95b6e.firebaseapp.com",
+        projectId: "login-system-95b6e",
+        storageBucket: "login-system-95b6e.firebasestorage.app",
+        messagingSenderId: "628865613555",
+        appId: "1:628865613555:web:471d346277eb8ff6f10186",
+        measurementId: "G-E47SD6DJE1"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const emailField = document.getElementById("email");
+    const statusField = document.getElementById("status");
+    const toggleBtn = document.getElementById("toggleDisable");
+
+    let disabled = false;
+
+    onAuthStateChanged(auth, user => {
+        if (!user) {
+            alert("Nicht eingeloggt!");
+            window.location.href = "index.html";
+            return;
+        }
+
+        emailField.textContent = user.email;
+
+        // Fake disabled flag stored in displayName (weil Firebase kein echtes disable im Client erlaubt)
+        disabled = user.displayName === "disabled";
+
+        updateUI();
+    });
+
+    function updateUI() {
+        statusField.textContent = disabled ? "Deaktiviert" : "Aktiv";
+        toggleBtn.textContent = disabled ? "Konto reaktivieren" : "Konto deaktivieren";
+        toggleBtn.className = disabled ? "normal" : "warning";
+    }
+
+    document.getElementById("resetPw").onclick = () => {
+        sendPasswordResetEmail(auth, auth.currentUser.email)
+            .then(() => alert("Passwort-Reset E-Mail wurde gesendet!"));
+    };
+
+    toggleBtn.onclick = () => {
+        const user = auth.currentUser;
+        disabled = !disabled;
+
+        updateProfile(user, { displayName: disabled ? "disabled" : "" })
+            .then(() => {
+                updateUI();
+                alert(disabled ? "Konto deaktiviert!" : "Konto reaktiviert!");
+            });
+    };
+
+    document.getElementById("deleteAcc").onclick = () => {
+        if (!confirm("Willst du dein Konto wirklich löschen?")) return;
+
+        deleteUser(auth.currentUser)
+            .then(() => {
+                alert("Konto gelöscht!");
+                window.location.href = "index.html";
+            })
+            .catch(err => alert("Fehler: " + err.message));
+    };
+</script>
+
+</body>
+</html>
