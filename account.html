@@ -118,7 +118,6 @@
 
         emailField.textContent = user.email;
 
-        // Fake disabled flag stored in displayName (weil Firebase kein echtes disable im Client erlaubt)
         disabled = user.displayName === "disabled";
 
         updateUI();
